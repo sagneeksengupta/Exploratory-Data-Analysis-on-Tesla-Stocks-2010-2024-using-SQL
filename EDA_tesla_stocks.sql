@@ -13,7 +13,6 @@ INSERT tesla_staging
 SELECT *
 FROM tesla_dataset;
 
-
 SELECT *,
 ROW_NUMBER() OVER(
 PARTITION BY `Date`, `Open`, High, Low, `Close`, `Adj Close`, Volume) AS row_num
@@ -32,20 +31,10 @@ WHERE row_num>1;
 SELECT *
 FROM tesla_dataset;
 
--- Standardizing data
-SELECT DISTINCT TRIM(date) 
-FROM tesla_staging;
-
-UPDATE tesla_staging
-SET `date` = TRIM(`date`);
-
-SELECT `Date`, `Open`, `High`, `Low`, volume
-FROM tesla_staging
-order by 1,2 ;
-
 SELECT *
 FROM tesla_staging;
 
+-- Statistical Observations
 SELECT 
     MIN(Close) AS Min_Close,
     MAX(Close) AS Max_Close,
@@ -55,7 +44,6 @@ SELECT
 FROM tesla_staging;
 
 -- Open vs Close
-
 SELECT 
     Date,
     Close - Open AS Price_Change,
@@ -65,6 +53,7 @@ WHERE (Close - Open) / Open * 100 > 0
 ORDER BY ABS(Percent_Change) DESC
 ;
 
+-- Weekly Analysis
 SELECT 
     DAYNAME(Date) AS Day_Of_Week,
     AVG(Close) AS Avg_Close,
@@ -74,7 +63,6 @@ GROUP BY DAYNAME(Date), DAYOFWEEK(Date)
 ORDER BY DAYOFWEEK(Date);
 
 -- Yearly Analysis
-
 SELECT 
     EXTRACT(YEAR FROM Date) AS Year,
     AVG(Close) AS Avg_Close,
@@ -83,8 +71,16 @@ FROM tesla_staging
 GROUP BY EXTRACT(YEAR FROM Date)
 ORDER BY Year; 
 
--- Volatility Trends
+-- Highest and lowest closing prices for each year
+SELECT 
+    YEAR(Date) AS Year,
+    MAX(Close) AS Yearly_High,
+    MIN(Close) AS Yearly_Low
+FROM tesla_staging
+GROUP BY Year
+ORDER BY Year;
 
+-- Volatility Trends
 SELECT 
     YEAR(Date) AS Year,
     STDDEV(Close) AS Volatility
@@ -113,7 +109,6 @@ SELECT
 FROM tesla_staging;
 
 -- Percentage Change
-
 SELECT 
     Date, 
     Close,
@@ -152,6 +147,51 @@ SELECT
 FROM tesla_staging
 GROUP BY Day_of_Week
 ORDER BY Day_of_Week;
+
+-- Unusual Spike in volume
+-- Threshold Volume=Avg_Volume+2×STDDEV(Volume). 
+-- This threshold volume is the value that trading volumes must exceed to be considered "unusually high." 
+
+WITH VolumeStats AS (
+SELECT Date, Volume,
+        AVG(Volume) OVER () AS Avg_Volume,
+        2 * STDDEV(Volume) OVER () AS Volume_Threshold
+    FROM tesla_staging
+)
+SELECT Date,Volume,Avg_Volume,Volume_Threshold 
+FROM VolumeStats
+WHERE Volume > (Avg_Volume + Volume_Threshold)
+ORDER BY Volume DESC ;
+
+-- Potential Support and Resistance 
+
+-- A Support level is a price level where a stock tends to find buying interest as it falls.
+-- A Resistance level is a price level where a stock tends to find selling interest as it rises.
+
+WITH SupportResistance AS (
+    SELECT Date, Close,
+        LAG(Close, 1) OVER (ORDER BY Date) AS Prev_Close,
+        LEAD(Close, 1) OVER (ORDER BY Date) AS Next_Close
+    FROM tesla_staging
+)
+SELECT 
+    Date, Close,
+     CASE 
+            WHEN Close < Prev_Close AND Close < Next_Close THEN 'Support'
+            WHEN Close > Prev_Close AND Close > Next_Close THEN 'Resistance'
+            ELSE NULL
+        END AS Level_Type
+FROM SupportResistance
+HAVING Level_Type IS NOT NULL
+ORDER BY Date;
+
+
+
+
+
+
+
+
 
 
 
