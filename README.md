@@ -43,14 +43,29 @@ The results are filtered to include only days where the price increased, and the
 From this we find it was on 29/06/2010 had the highest positive change with a spike of 25.736833204195197%
 
 ### Weekly Analysis - 
-This query performs an analysis of Tesla stock's average closing prices and trading volumes for each day of the week. It groups the data by day of the week and calculates:
+Performed an analysis of Tesla stock's average closing prices and trading volumes for each day of the week. It groups the data by day of the week and calculates:
 - AVG(Close) to find the average closing price for each day.
 - AVG(Volume) to find the average trading volume for each day.
-The results are ordered by the day of the week, providing insights into weekly patterns and trends in stock performance and trading activity.
+Insights on weekly patterns and trends in stock performance and trading activity are obtained
 
 ![image](https://github.com/user-attachments/assets/9dd89947-24eb-4dd3-87a4-495c40b657f5)
 |:--:|
 | *Figure 4: Table containing data on Average closing price and volume of each day in the week* |
+
+### Yearly Analysis
+Perfomed a yearly analysis of Tesla stock's average closing prices and total trading volumes. It groups the data by year and calculates:
+
+- AVG(Close) to find the average closing price for each year.
+- SUM(Volume) to find the total trading volume for each year.
+From this we gain insights into long-term trends in stock performance and trading activity over the years.
+
+![image](https://github.com/user-attachments/assets/f4fa15b2-7e84-466b-8a9c-b722b8bcfb5f)
+|:--:|
+| *Figure 5: Table containing data on Yearly analysis of Tesla stock's average closing prices and total trading volumes* |
+
+
+
+
 
 
 
