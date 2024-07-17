@@ -26,8 +26,7 @@ Calculated basic statistical metrics for the closing prices and trading volumes 
 - MIN(Volume) and MAX(Volume) to find the minimum and maximum trading volumes.
 These statistics provide a snapshot of the stock's price range and trading activity over the analyzed period.
 ![image](https://github.com/user-attachments/assets/fefbe775-b65f-4962-87e0-278a3dc4a339)
-|:--:|
-| *Figure 2: Statistical Observations found* |
+![Figure 2: Statistical Observations found]
 
 ### Open vs Close Analysis
 Analysed the daily price change and percentage change from the opening to the closing prices of Tesla stock. Following calculations were made - 
