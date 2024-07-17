@@ -18,26 +18,40 @@ Searched for duplicate values in the staging table. By using ROW_NUMBER() with P
 
 ## Analysis performed
 
-### Statistical Observations
+### Statistical Observations - 
 Calculated basic statistical metrics for the closing prices and trading volumes in the Tesla stock dataset. The metrics include:
 
 - MIN(Close) and MAX(Close) to find the minimum and maximum closing prices.
 - STDDEV(Close) to calculate the standard deviation of the closing prices, indicating price variability.
 - MIN(Volume) and MAX(Volume) to find the minimum and maximum trading volumes.
 These statistics provide a snapshot of the stock's price range and trading activity over the analyzed period.
-![image](https://github.com/user-attachments/assets/fefbe775-b65f-4962-87e0-278a3dc4a339)
-![Figure 2: Statistical Observations found]
 
-### Open vs Close Analysis
+![image](https://github.com/user-attachments/assets/fefbe775-b65f-4962-87e0-278a3dc4a339)
+|:--:|
+| *Figure 2: Statistical Observation* |
+
+### Open vs Close Analysis - 
 Analysed the daily price change and percentage change from the opening to the closing prices of Tesla stock. Following calculations were made - 
 - Price_Change = (Close - Open) to find the absolute change in price.
 - Percent_Change = [{(Close - Open) / Open} * 100] to find the percentage change relative to the opening price.
 The results are filtered to include only days where the price increased, and the output is ordered by the absolute percentage change in descending order. This analysis highlights the days with the most significant positive price movements.
+
 ![image](https://github.com/user-attachments/assets/daa97118-b00b-48cc-a002-a59f42505c2c)
 |:--:|
 | *Figure 3: Table containing data on daily Price Changes and Percentange Change in Descending Order* |
 
 From this we find it was on 29/06/2010 had the highest positive change with a spike of 25.736833204195197%
+
+### Weekly Analysis - 
+This query performs an analysis of Tesla stock's average closing prices and trading volumes for each day of the week. It groups the data by day of the week and calculates:
+- AVG(Close) to find the average closing price for each day.
+- AVG(Volume) to find the average trading volume for each day.
+The results are ordered by the day of the week, providing insights into weekly patterns and trends in stock performance and trading activity.
+
+![image](https://github.com/user-attachments/assets/9dd89947-24eb-4dd3-87a4-495c40b657f5)
+|:--:|
+| *Figure 4: Table containing data on Average closing price and volume of each day in the week* |
+
 
 
 
